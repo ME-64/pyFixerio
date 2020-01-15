@@ -7,15 +7,27 @@ import datetime
 class Fixerio(object):
     """Fixer.io free API Python wrapper"""
 
-    _base_url = 'http://data.fixer.io/api/'
+    _BASE_URL = 'http://data.fixer.io/api/'
 
     def __init__(self, access_key):
         self._access_key = access_key
     
     def current(self, pairs):
-        """get current exchange rate for given pair(s)"""
+        """get current exchange rate for given pair(s
 
-        # convert input to list TODO: create method for this
+        Parameters
+        ---------
+        pairs : string or list
+        sinlge or multiple currency pairs in 3 letter iso format.
+        i.e. 'EURUSD' or ['EURUSD', 'GBPMXN']
+
+        Returns
+        -------
+        rates : dictionary
+        dictionary of each pair and the given exchange rate
+        """
+
+        # convert input to list 
         if isinstance(pairs, str):
             pairs = [pairs]
 
@@ -38,7 +50,22 @@ class Fixerio(object):
 
 
     def historical(self, pairs, date):
-        """get exchange rate for given pair on given date"""
+        """get exchange rate for given pair on given date
+        
+        Parameters
+        ----------
+        pairs : string or list
+        single or multiple currency pairs in 3 letter iso format.
+        i.e. 'EURUSD' or ['EURUSD', 'GBPMXN']
+
+        date : string
+        A date in format 'YYYY-MM-DD' to return the exchange rate for
+
+        Returns
+        -------
+        rates : dictionary of each pair and the given exchange rate for the date
+
+        """
         
         if isinstance(pairs, str):
             pairs = [pairs]
@@ -57,7 +84,26 @@ class Fixerio(object):
 
 
     def time_series(self, pairs, start_date, end_date):
-        """get exhcange rate for given pair(s) between given dates)"""
+        """get exhcange rate for given pair(s) between given dates)
+        
+        Parameters
+        ----------
+        pairs : string or list
+        single or multiple currency pairs in 3 letter iso format
+        i.e. 'EURUSD; or ['EURUSD', 'GBPMXN']
+
+        start_date : string
+        a date in format 'YYYY-MM-DD' for first date of conversion
+
+        end_date : string
+        a date in format 'YYYY-MM-DD; for end date of conversion
+
+        Returns
+        -------
+        dated_rates : dictionary
+        A dictionary with a key for each date within the time series and
+        exchange rates for each specified pair on that date
+        """
         
         # creating a list of dates between given date range
         dates = []
@@ -110,17 +156,26 @@ class Fixerio(object):
         params = urllib.parse.urlencode(param_dict)
 
         if endpoint == 'latest': 
-            url = self._base_url + endpoint + '?' +  params
+            url = self._BASE_URL + endpoint + '?' +  params
 
         elif endpoint == 'historical':
-            url = self._base_url + date + '?' + params
+            url = self._BASE_URL + date + '?' + params
 
         return url
 
 
     def _confirm_response(self, response):
         """method to ensure expected response / raise error if not"""
-        return response
+
+        if response['success'] == True: 
+            return response
+
+        elif response['success'] == False:
+            raise FileNotFoundError(response['error']['info'])
+
+        else:
+            raise
+
 
     def _rate_converter(self, pairs, response):
         """method to convert response to the exchange rate for given pairs"""
