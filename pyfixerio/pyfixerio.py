@@ -90,7 +90,7 @@ class Fixerio(object):
         return rates
 
 
-    def time_series(self, pairs, start_date, end_date):
+    def timeseries(self, pairs, start_date, end_date):
         """get exhcange rate for given pair(s) between given dates)
         
         Parameters
