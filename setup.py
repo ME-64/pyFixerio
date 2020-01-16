@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 setup(
   name = 'pyfixerio',
   packages = ['pyfixerio'],
-  version = '0.1.0',
+  version = '0.1.1',
   license='MIT',
   description = 'a python API wrapper for the free fixer.io API',
   long_description = README,
