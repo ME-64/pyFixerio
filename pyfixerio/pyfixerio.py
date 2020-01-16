@@ -200,19 +200,23 @@ class Fixerio(object):
             b_rate = rates[base]
             b_quoted = rates[quoted]
             exchange = b_quoted / b_rate
-            converted[pair] = exchange
+            converted[pair] = round(exchange, 6)
 
         return converted
     
     def _send_request(self, payload):
+        """method to send the GET request to the API"""
         response = requests.get(payload).json()
         return response
 
     def _get_url(self):
-        if requests.get(self._BASE_URL).status_code == 200:
+        """method to test which APIs are currently up and select accordingly"""
+        base_query = 'latest?access_key=' + self._access_key + 'symbols=USD'
+        fallback_query = 'latest?symbols=USD'
+        if requests.get(self._BASE_URL + base_query).status_code == 200:
             return self._BASE_URL
 
-        elif requests.get(self._FALLBACK_URL).status_code == 200:
+        elif requests.get(self._FALLBACK_URL + fallback_query).status_code == 200:
             return self._FALLBACK_URL
         
         else:

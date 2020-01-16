@@ -9,7 +9,7 @@ to paid versions. Namely, the wrapper deals with fixer.io's restrictions on:
 #### Basic usage
 
 ```python
->>> from pyfixerio import Fixerio
+>>> from pyfixerio.pyfixerio import Fixerio
 
 >>> fx = Fixerio('ACCESS_KEY')
 
@@ -26,10 +26,6 @@ to paid versions. Namely, the wrapper deals with fixer.io's restrictions on:
 #### TODO:
 
 - Validate access key
-- Implement fallback API
-- learn proper import methods for 3rd party modules
-- Create virtual environment and requirements.txt
-- package script for usage on pypi
-- implement proper documentation for each method
 - When converting / dividing to find base rate - round currency decimal places
-
+- Implement creation of new acc for API key (?)
+- Implement option to choose free api as default
