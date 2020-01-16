@@ -8,6 +8,7 @@ class Fixerio(object):
     """Fixer.io free API Python wrapper"""
 
     _BASE_URL = 'http://data.fixer.io/api/'
+    _FALLBACK_URL = 'https://api.exchangerates.io/'
 
     def __init__(self, access_key):
         self._access_key = access_key
@@ -34,11 +35,14 @@ class Fixerio(object):
         # convert pairs into 3 letter currencies
         symbols = self._parse_pairs(pairs)
 
+        # Check which API's are online
+        url = self._get_url()
+        
         # create payload for API
-        payload = self._create_payload(symbols, endpoint = 'latest')
+        payload = self._create_payload(symbols, endpoint = 'latest', url = url)
 
         # Send request to API
-        response = requests.get(payload).json()
+        response = self._send_request(payload)
 
         #TODO: Validate response
         self._confirm_response(response)
@@ -71,10 +75,13 @@ class Fixerio(object):
             pairs = [pairs]
 
         symbols = self._parse_pairs(pairs)
-        
-        payload = self._create_payload(symbols, endpoint = 'historical', date = date)
+       
+        url = self._get_url()
 
-        response = requests.get(payload).json()
+        payload = self._create_payload(symbols, endpoint = 'historical',
+                date = date, url = url)
+
+        response = self._send_request(payload)
 
         self._confirm_response(response)
 
@@ -148,20 +155,23 @@ class Fixerio(object):
         return symbols_comma
 
 
-    def _create_payload(self, symbols, endpoint, date=None):
+    def _create_payload(self, symbols, endpoint, url, date=None):
         """method to create payload"""
-        param_dict = {'access_key': self._access_key,
-                 'base': 'EUR',    # always EUR in the request due to free API limit
+        param_dict = {'base': 'EUR',    # always EUR in the request due to free API limit
                  'symbols': symbols}
+
+        if url == self._BASE_URL:
+            param_dict['access_key'] = self._access_key
+
         params = urllib.parse.urlencode(param_dict)
 
         if endpoint == 'latest': 
-            url = self._BASE_URL + endpoint + '?' +  params
+            req_url = url + endpoint + '?' +  params
 
         elif endpoint == 'historical':
-            url = self._BASE_URL + date + '?' + params
+            req_url = url + date + '?' + params
 
-        return url
+        return req_url
 
 
     def _confirm_response(self, response):
@@ -193,6 +203,20 @@ class Fixerio(object):
             converted[pair] = exchange
 
         return converted
+    
+    def _send_request(self, payload):
+        response = requests.get(payload).json()
+        return response
+
+    def _get_url(self):
+        if requests.get(self._BASE_URL).status_code == 200:
+            return self._BASE_URL
+
+        elif requests.get(self._FALLBACK_URL).status_code == 200:
+            return self._FALLBACK_URL
+        
+        else:
+            raise Exception
 
 
 if __name__ == '__main__':
