@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 setup(
   name = 'pyfixerio',
   packages = ['pyfixerio'],
-  version = '0.0.1',
+  version = '0.0.3',
   license='MIT',
   description = 'a python API wrapper for the free fixer.io API',
   long_description = README,
@@ -21,8 +21,7 @@ setup(
   keywords = ['wrapepr', 'FX', 'foreignexchange'],
   include_package_data = True,
   install_requires=[            # I get to this in a second
-          'requests'
-          'urllib'
+          'requests',
       ],
   classifiers=[
     'Development Status :: 3 - Alpha',      
