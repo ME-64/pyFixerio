@@ -10,7 +10,7 @@ class Fixerio(object):
     _BASE_URL = 'http://data.fixer.io/api/'
     _FALLBACK_URL = 'https://api.exchangerates.io/'
 
-    def __init__(self, access_key):
+    def __init__(self, access_key=None):
         self._access_key = access_key
     
     def current(self, pairs):
@@ -181,7 +181,7 @@ class Fixerio(object):
             return response
 
         elif response['success'] == False:
-            raise FileNotFoundError(response['error']['info'])
+            raise BaseException(response['error']['info'])
 
         else:
             raise
@@ -220,7 +220,7 @@ class Fixerio(object):
 
 
 if __name__ == '__main__':
-    fx = Fixerio('c263b908a641e8146deac4b2eeb27c17')
+    fx = Fixerio()
     print(fx.current(['EURUSD', 'GBPMXN']))
     print(fx.historical('MXNUSD', '2019-12-22')) 
     print(fx.time_series('USDGBP', '2019-12-22','2019-12-23'))
