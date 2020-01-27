@@ -205,7 +205,7 @@ class Fixerio(object):
         return converted
     
     def _send_request(self, payload):
-        """method to send the GET request to the API"""
+        """method to retrive response from API - currently no other transformations"""
         response = requests.get(payload).json()
         return response
 
