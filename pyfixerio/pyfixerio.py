@@ -44,7 +44,7 @@ class Fixerio(object):
         # Send request to API
         response = self._send_request(payload)
 
-        #TODO: Validate response
+        # Checking for success and returning relevant error code if failure
         self._confirm_response(response)
 
         # Convert the response to the rates for each pair
