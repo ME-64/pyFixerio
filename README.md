@@ -3,6 +3,7 @@
 
 This wrapper only uses the free version of the API, but delivers similar functionality
 to paid versions. Namely, the wrapper deals with fixer.io's restrictions on:
+
     - Base currency is only allowed to be 'EUR'
     - No access to the time series API
 
@@ -25,7 +26,7 @@ to paid versions. Namely, the wrapper deals with fixer.io's restrictions on:
 
 #### TODO:
 
-- Validate access key
-- When converting / dividing to find base rate - round currency decimal places
-- Implement creation of new acc for API key (?)
-- Implement option to choose free api as default
+[] Validate access key
+[] When converting / dividing to find base rate - round currency decimal places
+[] Implement creation of new account for new api key (?)
+[]Implement option to choose free api as default
