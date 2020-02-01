@@ -1,1 +1,1 @@
-from pyfixerio import pyfixerio
+from pyfixerio.pyfixerio import Fixerio
