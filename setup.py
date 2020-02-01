@@ -17,7 +17,7 @@ setup(
   author = 'ME-64',
   author_email = 'miloelliott64@gmail.com',
   url = 'https://github.com/ME-64/pyfixerio',
-  keywords = ['wrapepr', 'FX', 'foreignexchange'],
+  keywords = ['API wrapper', 'FX', 'foreign exchange'],
   include_package_data = True,
   install_requires=[           
           'requests',
